@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>mah-date-formatter all output formats demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../mah-date-formatter.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+        table {
+          font-family:Arial, Helvetica, sans-serif;
+          color: var(--paper-grey-900, #212121);
+          font-size: 12px;
+          background: var(--paper-grey-200, #EEEEEE);
+          margin: 16px;
+          border: var(--paper-grey-400, #BDBDBD), 1px solid;
+
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+          border-radius: 4px;
+
+          -moz-box-shadow: 0 1px 2px var(--paper-grey-300, #E0E0E0);
+          -webkit-box-shadow: 0 1px 2px var(--paper-grey-300, #E0E0E0);
+          box-shadow: 0 1px 2px var(--paper-grey-300, #E0E0E0);
+        }
+        table th {
+          padding: 20px 24px 20px 24px;
+          border-top: 1px solid var(--paper-grey-300, #E0E0E0);
+          border-bottom: 1px solid var(--paper-grey-200, #EEEEEE);
+
+          background: var(--paper-grey-100, #F5F5F5);
+        }
+        table th:first-child {
+          text-align: left;
+          padding-left: 20px;
+        }
+        table tr:first-child th:first-child {
+          -moz-border-radius-topleft: 4px;
+          -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+        }
+        table tr:first-child th:last-child {
+          -moz-border-radius-topright: 4px;
+          -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+        }
+        table tr {
+          text-align: center;
+          padding-left: 20px;
+        }
+        table td:first-child {
+          text-align: left;
+          padding-left: 20px;
+          border-left: 0;
+        }
+        table td {
+          padding: 16px;
+          border-top: 1px solid var(--paper-grey-300, #E0E0E0);
+          border-bottom: 1px solid var(--paper-grey-300, #E0E0E0);
+          border-left: 1px solid var(--paper-grey-300, #E0E0E0);
+
+          background: var(--paper-grey-100, #F5F5F5);
+        }
+        table tr:last-child td {
+          border-bottom:0;
+        }
+        table tr:last-child td:first-child {
+          -moz-border-radius-bottomleft: 4px;
+          -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+        }
+        table tr:last-child td:last-child {
+          -moz-border-radius-bottomright: 4px;
+          -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+        }
+        table tr:hover td {
+          background: var(--paper-grey-300, #E0E0E0);
+        }
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <dom-bind>
+      <template is="dom-bind">
+
+        <div>
+          <h3>Basic Example</h3>
+          <mah-date-formatter input="[[now]]"></mah-date-formatter>
+        </div>
+
+        <div>
+          <h3>Parsing Unix</h3>
+          <mah-date-formatter input="[[nowUnix]]" input-format="unix"></mah-date-formatter>
+        </div>
+
+        <div>
+          <h3>Override User Locale</h3>
+          <mah-date-formatter input="[[now]]" locale="zh-CN"></mah-date-formatter>
+        </div>
+
+        <div>
+          <h3>All Formats</h3>
+          <p>click to copy code</p>
+          <table>
+            <thead><tr><th>Format</th><th>Output</th></tr></thead>
+            <tbody id="body">
+              <tr><td> date       </td><td><mah-date-formatter input="[[now]]" output-format="date"></mah-date-formatter></td></tr>
+              <tr><td> time       </td><td><mah-date-formatter input="[[now]]" output-format="time"></mah-date-formatter></td></tr>
+              <tr><td> string     </td><td><mah-date-formatter input="[[now]]" output-format="string"></mah-date-formatter></td></tr>
+              <tr><td> gmt        </td><td><mah-date-formatter input="[[now]]" output-format="gmt"></mah-date-formatter></td></tr>
+              <tr><td> iso        </td><td><mah-date-formatter input="[[now]]" output-format="iso"></mah-date-formatter></td></tr>
+              <tr><td> utc        </td><td><mah-date-formatter input="[[now]]" output-format="utc"></mah-date-formatter></td></tr>
+              <tr><td> localeDate </td><td><mah-date-formatter input="[[now]]" output-format="localeDate"></mah-date-formatter></td></tr>
+              <tr><td> localeTime </td><td><mah-date-formatter input="[[now]]" output-format="localeTime"></mah-date-formatter></td></tr>
+              <tr><td> locale     </td><td><mah-date-formatter input="[[now]]" output-format="locale"></mah-date-formatter></td></tr>
+              <tr><td> millis     </td><td><mah-date-formatter input="[[now]]" output-format="millis"></mah-date-formatter></td></tr>
+              <tr><td> unix       </td><td><mah-date-formatter input="[[now]]" output-format="unix"></mah-date-formatter></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    </dom-bind>
+
+    <script>
+      let domBind = document.querySelector ('dom-bind');
+
+      window.addEventListener('WebComponentsReady', function() {
+        domBind.updateNow = function () {
+          domBind.now = new Date ();
+          domBind.nowUnix = Math.floor (new Date () / 1000);
+        };
+        domBind.updateNow ();
+        domBind.nowUpdater = setInterval (domBind.updateNow, 1000);
+
+        domBind.handleClick = function () { document.execCommand('copy'); };
+        domBind.handleCopy = function (event) {
+          if (!event.clipboardData) { return; }
+          let code = event.currentTarget.querySelector ('mah-date-formatter').parentNode.innerHTML;
+
+          event.clipboardData.setData('text/plain', code.replace (/>.*</, '><'));
+          event.preventDefault();
+        };
+
+        let trs = domBind.$.body.querySelectorAll ('tr');
+
+        for (let i = 0; i < trs.length; i++) {
+          trs[i].addEventListener ('click', domBind.handleClick);
+          trs[i].addEventListener ('copy', domBind.handleCopy);
+        }
+      });
+
+    </script>
+  </body>
+</html>

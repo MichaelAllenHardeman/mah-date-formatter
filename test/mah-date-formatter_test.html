@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>mah-date-formatter test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../mah-date-formatter.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <mah-date-formatter></mah-date-formatter>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite ('mah-date-formatting-mixin', function () {
+
+        const DEFAULT_INPUT_FORMAT = 'date';
+        const DEFAULT_OUTPUT_FORMAT = 'locale';
+        const TEST_DATE = new Date (946702800000);
+        const TEST_LOCALE = 'en-US';
+        const EXPECTED_FORMATTED_OUTPUTS = {
+          date:       'Sat Jan 01 2000',
+          time:       '00:00:00 GMT-0500 (Eastern Standard Time)',
+          string:     'Sat Jan 01 2000 00:00:00 GMT-0500 (Eastern Standard Time)',
+          gmt:        'Sat, 01 Jan 2000 05:00:00 GMT',
+          iso:        '2000-01-01T05:00:00.000Z',
+          json:       '2000-01-01T05:00:00.000Z',
+          utc:        'Sat, 01 Jan 2000 05:00:00 GMT',
+          localeDate: '1/1/2000',
+          localeTime: '12:00:00 AM',
+          locale:     '1/1/2000, 12:00:00 AM',
+          millis:     946702800000,
+          unix:       946702800
+        };
+        const TEST_MAPPING = {
+          foo: (a) => { return 'foo' + a; },
+          baz: (a) => { return 'baz' + a; }
+        };
+        const TEST_EXTENSIONS = {
+          baz: (a) => { return 'qux' + a; }
+        };
+        const EXPECTED_FORMATTED_OUTPUT = 'foobar';
+        const EXPECTED_EXTENDED_OUTPUT = 'quxqux';
+
+        let element = fixture ('basic');
+
+        test ('Ensure mah-date-formatter has correct default values', () => {
+          assert.equal (element.inputFormat, DEFAULT_INPUT_FORMAT);
+          assert.equal (element.outputFormat, DEFAULT_OUTPUT_FORMAT);
+        });
+
+        test ('Ensure inputFormatMapping.date throws an error when given invalid inputs', () => {
+          try { element.inputFormatMapping.date (              ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.date (null          ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.date (''            ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.date (14123413511243); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.date ('13/13/2000'  ); assert.isTrue (false); } catch (e) {}
+        });
+
+        test ('Ensure inputFormatMapping.date correctly converts a valid date string to a Date object', () => {
+          assert.instanceOf(element.inputFormatMapping.date ('1/1/2000'), Date, 'inputFormatMapping.date did not return a date for a valid date');
+        });
+
+        test ('Ensure inputFormatMapping.unix throws an error when given invalid inputs', () => {
+          try { element.inputFormatMapping.unix (              ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.unix (null          ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.unix (''            ); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.unix (14123413511243); assert.isTrue (false); } catch (e) {}
+          try { element.inputFormatMapping.unix ('13/13/2000'  ); assert.isTrue (false); } catch (e) {}
+        });
+
+        test ('Ensure inputFormatMapping.unix correctly converts a valid date string to a Date object', () => {
+          assert.instanceOf(element.inputFormatMapping.unix (1515607672), Date);
+        });
+
+        test ('Ensure outputFormatMapping functions return the expected values', () => {
+          for (let key in element.outputFormatMapping) { 
+            assert.equal(element.outputFormatMapping[key](TEST_DATE, TEST_LOCALE), EXPECTED_FORMATTED_OUTPUTS[key]);
+          }
+        });
+
+        test ('Ensure _mapFormatted returns empty string when missing required parameters', () => {
+          assert.equal(element._mapFormatted(null,  null,  null,  null ), '');
+          assert.equal(element._mapFormatted('foo', null,  null,  null ), '');
+          assert.equal(element._mapFormatted(null,  'foo', null,  null ), '');
+          assert.equal(element._mapFormatted(null,  null,  'foo', null ), '');
+          assert.equal(element._mapFormatted(null,  null,  null,  'foo'), '');
+          assert.equal(element._mapFormatted('foo', 'foo', null,  null ), '');
+          assert.equal(element._mapFormatted('foo', null,  {},    null ), '');
+          assert.equal(element._mapFormatted('foo', null,  null,  {}   ), '');
+          assert.equal(element._mapFormatted('foo', 'foo', {},    null ), '');
+          assert.equal(element._mapFormatted('foo', 'foo', null,  {}   ), '');
+          assert.equal(element._mapFormatted('foo', null,  {},    {}   ), '');
+        });
+
+        test ('Ensure _mapFormatted returns the result of calling the mapped mappings[format]', () => {
+          assert.equal(element._mapFormatted('bar',  'foo',  TEST_MAPPING,  TEST_EXTENSIONS ), EXPECTED_FORMATTED_OUTPUT);
+        });
+
+        test ('Ensure _mapFormatted allows extensions to override the mappings', () => {
+          assert.equal(element._mapFormatted('qux',  'baz',  TEST_MAPPING,  TEST_EXTENSIONS ), EXPECTED_EXTENDED_OUTPUT);
+        });
+
+      });
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,139 @@
+<script>
+  MahDateFormattingMixin = function (superClass) {
+    return class extends superClass {
+      constructor () { super (); }
+
+      static get properties () {
+        return {
+
+          /** Any date parsable, or unix timestamp you want to display */
+          input: String,
+
+          /**
+           * This tells the date formatter how to read your input.
+           * You can add your own simply by adding a property and parsing function
+           * to the inputExtendedFormatMapping object.
+           * You can also choose from the default values of:
+           * 
+           * | Format | Example            |
+           * | ------ | ------------------ |
+           * | date   | any default Date() |
+           * | unix   | 1515509459         |
+           *
+           * @enum {string}
+           * @default 'date'
+           */
+          inputFormat: { type: String, value: 'date' },
+
+          /** Mapping of the inputFormat string to it's parsing function */
+          inputFormatMapping: {
+            type: Object,
+            readOnly: true,
+            value: function () { 
+              return {
+                date: (input) => { 
+                  if (isNaN (Date.parse (input))) {
+                    throw new Error ('Invalid Date: ' + input); 
+                  }
+                  return new Date (input); 
+                },
+                unix: (input) => {
+                  var date = new Date (input * 1000); 
+                  if (isNaN (Date.parse (date.toString ()))) {
+                    throw new Error ('Invalid Date: ' + num);
+                  }
+                  return date; 
+                }
+              };
+            }
+          },
+
+          /** Allows custom inputs parsers to be added */
+          inputExtensions: {
+            type: Object,
+            value: function () { return {}; }
+          },
+
+          /** The JS Date object after it has been mapped from the inputs */
+          _date: {
+            type: Object,
+            computed: '_mapFormatted(input, inputFormat, inputFormatMapping, inputExtensions)'
+          },
+
+          /** The final date string in the specified format */
+          output: {
+            type: String,
+            computed: '_mapFormatted(_date, outputFormat, outputFormatMapping, outputExtensions, locale)',
+          },
+
+          /**
+           * This tells the date formatter how you want your output to look.
+           * you can add your own simply by adding a property and formatting function
+           * to the outputExtendedFormatMapping object
+           * You can also choose from the default values of:
+           * 
+           * | Format     | Example                                                     |
+           * | ---------- | ----------------------------------------------------------- |
+           * | date       | "Tue Jan 09 2018"                                           |
+           * | time       | "09:50:59 GMT-0500 (Eastern Standard Time)"                 |
+           * | string     | "Tue Jan 09 2018 09:50:59 GMT-0500 (Eastern Standard Time)" |
+           * | gmt        | "Tue, 09 Jan 2018 14:50:59 GMT"                             |
+           * | iso        | "2018-01-09T14:50:59.368Z"                                  |
+           * | json       | "2018-01-09T14:50:59.368Z"                                  |
+           * | utc        | "Tue, 09 Jan 2018 14:50:59 GMT"                             |
+           * | localeDate | "1/9/2018"                                                  |
+           * | localeTime | "9:50:59 AM"                                                |
+           * | locale     | "1/9/2018, 9:50:59 AM"                                      |
+           * | millis     | "1515509459368"                                             |
+           * | unix       | "1515509459"                                                |
+           *
+           * @enum {string}
+           * @default 'date'
+           */
+          outputFormat: {
+            type: String,
+            value: 'locale'
+          },
+
+          /** Mapping of the outputForamt string to it's formatting function */
+          outputFormatMapping: {
+            type: Object,
+            readOnly: true,
+            value: function () { 
+              return {
+                date:       (date)         => { return date.toDateString ();                },
+                time:       (date)         => { return date.toTimeString ();                },
+                string:     (date)         => { return date.toString ();                    },
+                gmt:        (date)         => { return date.toGMTString ();                 },
+                iso:        (date)         => { return date.toISOString ();                 },
+                json:       (date)         => { return date.toJSON ();                      },
+                utc:        (date)         => { return date.toUTCString ();                 },
+                localeDate: (date, locale) => { return date.toLocaleDateString (locale);    },
+                localeTime: (date, locale) => { return date.toLocaleTimeString (locale);    },
+                locale:     (date, locale) => { return date.toLocaleString (locale);        },
+                millis:     (date)         => { return date.getTime ();                     },
+                unix:       (date)         => { return Math.floor (date.getTime () / 1000); }
+              };
+            }
+          },
+
+          /** Allows custom output formatters to be added */
+          outputExtensions: {
+            type: Object,
+            value: function () { return {}; }
+          },
+
+          /** Allows for overriding the user's default locale */
+          locale: String
+        };
+      }
+
+      _mapFormatted (input, format, mappings, extensions, locale) {
+        if (!input || !format || !mappings || !extensions) { return ''; }
+        
+        return (extensions[format] || mappings[format])(input, locale);
+      }
+
+    }
+  }
+</script>

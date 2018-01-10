@@ -1,0 +1,30 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="mah-date-formatting-mixin.html">
+
+<dom-module id="mah-date-formatter">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        @apply mah-date-formatter;
+      }
+    </style>
+    [[output]]
+  </template>
+
+  <script>
+    /**
+     * `mah-date-formatter`
+     * An element extending the default mah-date-formatting-mixin.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class MahDateFormatter extends MahDateFormattingMixin(Polymer.Element) {
+      static get is() { return 'mah-date-formatter'; }
+    }
+
+    window.customElements.define(MahDateFormatter.is, MahDateFormatter);
+  </script>
+</dom-module>
