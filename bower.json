@@ -2,6 +2,7 @@
   "name": "mah-date-formatter",
   "description": "Converts date strings to any of the javascript date formats",
   "main": "mah-date-formatter.html",
+  "version": "1.0.0",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0"
   },
