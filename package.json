@@ -1,0 +1,11 @@
+{
+  "name": "mah-date-formatter",
+  "version": "1.0.0",
+  "devDependencies": {
+    "web-component-tester": "https://github.com/t2ym/web-component-tester#wct6-plugin",
+    "web-component-tester-istanbul": "https://github.com/t2ym/web-component-tester-istanbul#0.10.1-wct6.12"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/wct"
+  }
+}
