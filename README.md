@@ -46,20 +46,8 @@ $ polymer serve
 
 ## Running Tests
 
-Install instanbul and web-component-tester-istanbul globally to allow coverage: 
-```
-npm install -g istanbul
-```
-and
-```
-npm install -g web-component-tester-istanbul
-```
-    
-To run the tests:
 ```
 $ npm run test
 ```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
 
 Test configuration is located in wct.conf.json
