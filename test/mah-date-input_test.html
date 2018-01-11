@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>mah-date-input test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../mah-date-input.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <mah-date-input></mah-date-input>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite ('mah-date-input', function () {
+
+        let element = fixture ('basic');
+
+        test ('Ensure mah-date-input has correct default values', () => {
+
+        });
+
+      });
+    </script>
+
+  </body>
+</html>

@@ -4,7 +4,8 @@
   "main": "mah-date-formatter.html",
   "version": "1.0.0",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.0.5"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
