@@ -9,11 +9,9 @@
       "dir": "coverage",
       "reporters": ["text-summary", "lcov"],
       "include": [
-        "**/*.html"
+        "**/mah-date-formatter/**/*.html"
       ],
       "exclude": [
-        "**/polymer/**/*",
-        "**/test-fixture/**/*",
         "**/test/**/*"
       ]
     }
