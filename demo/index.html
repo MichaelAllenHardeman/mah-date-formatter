@@ -11,7 +11,10 @@
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-toast/paper-toast.html">
+
     <link rel="import" href="../mah-date-formatter.html">
+    <link rel="import" href="../mah-date-input.html">
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -92,6 +95,13 @@
     <dom-bind>
       <template is="dom-bind">
 
+        <paper-toast id="toast" text="Code has been copied to clipboard!"></paper-toast>
+
+        <div>
+          <h3>Date Input</h3>
+          <mah-date-input></mah-date-input>
+        </div>
+
         <div>
           <h3>Basic Example</h3>
           <mah-date-formatter input="[[now]]"></mah-date-formatter>
@@ -148,6 +158,8 @@
 
           event.clipboardData.setData('text/plain', code.replace (/>.*</, '><'));
           event.preventDefault();
+
+          domBind.$.toast.open();
         };
 
         let trs = domBind.$.body.querySelectorAll ('tr');

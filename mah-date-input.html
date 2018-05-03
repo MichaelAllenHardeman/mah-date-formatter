@@ -1,0 +1,38 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-input/paper-input-container.html">
+<link rel="import" href="../paper-input/paper-input-error.html">
+
+<dom-module id="mah-date-input">
+  <template>
+    <style>
+
+    </style>
+
+    <paper-input-container>
+      <label>Date</label>
+      <input
+        is="iron-input"
+        type="datetime-local"
+        required>
+      </input>
+      <paper-input-error>Date is required</paper-input-error>
+    </paper-input-container>
+
+  </template>
+
+  <script>
+    /**
+     * `mah-date-input`
+     * An element surrounding a date input
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class MahDateInput extends Polymer.Element {
+      static get is() { return 'mah-date-input'; }
+    }
+
+    window.customElements.define(MahDateInput.is, MahDateInput);
+  </script>
+</dom-module>
